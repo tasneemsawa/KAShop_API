@@ -1,0 +1,15 @@
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/bin/Debug/net9.0/KASHOP.BLL.deps.json
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/bin/Debug/net9.0/KASHOP.BLL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/bin/Debug/net9.0/KASHOP.BLL.pdb
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/bin/Debug/net9.0/KASHOP.DAL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/bin/Debug/net9.0/KASHOP.DAL.pdb
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.csproj.AssemblyReference.cache
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.AssemblyInfoInputs.cache
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.AssemblyInfo.cs
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.csproj.CoreCompileInputs.cache
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.csproj.Up2Date
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/refint/KASHOP.BLL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.pdb
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/ref/KASHOP.BLL.dll
