@@ -1,3 +1,4 @@
+using KASHOP.DAL;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KASHOP.PL.Controllers;
@@ -6,6 +7,7 @@ namespace KASHOP.PL.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
+    // ApplicationDbContext context =new ApplicationDbContext();
     private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"

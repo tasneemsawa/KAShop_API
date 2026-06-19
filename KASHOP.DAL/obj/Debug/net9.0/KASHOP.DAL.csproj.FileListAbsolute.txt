@@ -9,3 +9,7 @@
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/obj/Debug/net9.0/refint/KASHOP.DAL.dll
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/obj/Debug/net9.0/KASHOP.DAL.pdb
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/obj/Debug/net9.0/ref/KASHOP.DAL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/bin/Debug/net9.0/KASHOP.DAL.runtimeconfig.json
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/obj/Debug/net9.0/KASHOP.DAL.csproj.AssemblyReference.cache
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/obj/Debug/net9.0/KASHOP.DAL.sourcelink.json
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.DAL/obj/Debug/net9.0/KASHOP.DAL.genruntimeconfig.cache

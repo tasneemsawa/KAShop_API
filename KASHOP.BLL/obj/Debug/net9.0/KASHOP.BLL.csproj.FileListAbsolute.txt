@@ -13,3 +13,4 @@
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/refint/KASHOP.BLL.dll
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.pdb
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/ref/KASHOP.BLL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.BLL/obj/Debug/net9.0/KASHOP.BLL.sourcelink.json
