@@ -1,0 +1,10 @@
+## Ignore Visual Studio Temporary Files and Build Output
+/[Bb]in/
+/[Oo]bj/
+*.suo
+*.user
+*.sln.docstates
+
+# OS-specific files
+.DS_Store
+Thumbs.db
