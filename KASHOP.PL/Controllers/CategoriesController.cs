@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KASHOP.DAL.Data;
+using KASHOP.DAL.Dto;
 using KASHOP.PL.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using KASHOP.BLL.Services;
+using KASHOP.DAL.Models;
+using KASHOP.DAL.Repository;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
+
+
+
 namespace KASHOP.PL.Controllers
 {
     [Route("api/[controller]")]
@@ -14,6 +23,7 @@ namespace KASHOP.PL.Controllers
     {
         private ApplicationDbContext _context;
         private IStringLocalizer<SharedResource> _localizer;
+        private readonly ICategoryService _categoryService;
 
         public CategoriesController(ApplicationDbContext context, IStringLocalizer<SharedResource> localizer)
         {
@@ -22,24 +32,17 @@ namespace KASHOP.PL.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+
+        public async Task< IActionResult> Index()
         {
-            //try
-            //{
-            //    if (_context.Database.CanConnect())
-            //    {
-            //        return Ok("Done");
-            //    }
-            //    else
-            //    {
-            //        return StatusCode(500, "Cannot connect to the database");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    return StatusCode(500, $"An error occurred: {ex.Message}");
-            //}
-            return Ok(_localizer["Success"].Value);
+            var categories = await _categoryService.GetAllCategories();            
+            return Ok(new { _localizer["success"].Value, categories });
+        }
+        [HttpPost("")]
+        public async Task<IActionResult> Create(CategoryRequest request)
+        {
+            var response = await _categoryService.CreateCategory(request);
+            return Ok();
         }
     }
 }

@@ -171,3 +171,5 @@
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/obj/Debug/net9.0/KASHOP.PL.pdb
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/obj/Debug/net9.0/KASHOP.PL.genruntimeconfig.cache
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/obj/Debug/net9.0/ref/KASHOP.PL.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Mapster.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Mapster.Core.dll
