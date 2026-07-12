@@ -26,8 +26,8 @@ ehthumbs.db
 
 
 # .NET build outputs
-bin/
-obj/
+**/bin/
+**/obj/
 
 # Debug symbols
 *.pdb
