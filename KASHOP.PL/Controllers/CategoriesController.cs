@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using KASHOP.BLL.Services;
 using KASHOP.DAL.Data;
 using KASHOP.DAL.Dto;
-using KASHOP.PL.Resources;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using KASHOP.BLL.Services;
 using KASHOP.DAL.Models;
 using KASHOP.DAL.Repository;
+using KASHOP.PL.Resources;
 using Mapster;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
-
+using Microsoft.Extensions.Localization;
 
 namespace KASHOP.PL.Controllers
 {
@@ -22,7 +17,7 @@ namespace KASHOP.PL.Controllers
     public class CategoriesController : ControllerBase
     {
         // private ApplicationDbContext _context;
-        private IStringLocalizer<SharedResource> _localizer;
+        private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly ICategoryService _categoryService;
 
         public CategoriesController(ApplicationDbContext context, IStringLocalizer<SharedResource> localizer, ICategoryService categoryService)
@@ -51,6 +46,26 @@ namespace KASHOP.PL.Controllers
             // return Ok();
             var response = await _categoryService.CreateCategory(request);
             return Ok();
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var category = await _categoryService.GetCategory(c => c.Id == id);
+            return Ok(category);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _categoryService.DeleteCategory(id);
+            if (!deleted) return BadRequest();
+            return Ok();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CategoryRequest request)
+        {
+            var updated = await _categoryService.UpdateCategory(id, request);
+            if (updated == null) return BadRequest();
+            return Ok(updated);
         }
     }
 }
