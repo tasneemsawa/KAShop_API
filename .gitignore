@@ -23,3 +23,11 @@ ehthumbs.db
 # Rider / Resharper 
 .idea/
 *.sln.iml
+
+
+# .NET build outputs
+bin/
+obj/
+
+# Debug symbols
+*.pdb
