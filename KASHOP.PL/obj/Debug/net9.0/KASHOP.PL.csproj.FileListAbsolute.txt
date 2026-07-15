@@ -173,3 +173,8 @@
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/obj/Debug/net9.0/ref/KASHOP.PL.dll
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Mapster.dll
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Mapster.Core.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
