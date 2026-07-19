@@ -1,16 +1,19 @@
 using KASHOP.BLL.Services;
 using KASHOP.DAL.Data;
+using KASHOP.DAL.Models;
 using KASHOP.DAL.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Globalization;
+using KASHOP.PL.Utils;
 
 namespace KASHOP.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +21,7 @@ namespace KASHOP.PL
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();           
+            builder.Services.AddOpenApi();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -34,7 +37,8 @@ namespace KASHOP.PL
                 new CultureInfo("ar")
             };
             //to set the default culture and supported cultures for localization
-            builder.Services.Configure<RequestLocalizationOptions>(options => {
+            builder.Services.Configure<RequestLocalizationOptions>(options =>
+            {
                 options.DefaultRequestCulture = new RequestCulture(defaultCulture);
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
@@ -43,8 +47,15 @@ namespace KASHOP.PL
                 //to send the language in the header of the request
                 options.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
             });
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+             .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+             builder.Services.AddScoped<ISeedData, RoleSeedData>();
+            //if theres more seed data classes, you can add them here
+            //builder.Services.AddScoped<ISeedData, CategorySeedDataClass>();
 
             var app = builder.Build();
             app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
@@ -58,7 +69,16 @@ namespace KASHOP.PL
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            //if we want to seed the data when the application starts, you can call the DataSeed method of each seed data class here
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var seeders = services.GetServices<ISeedData>();
+                foreach (var seeder in seeders)
+                {
+                    await seeder.DataSeed();
+                }
+            }
 
             app.MapControllers();
 
