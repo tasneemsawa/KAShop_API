@@ -18,7 +18,7 @@ namespace KASHOP.BLL.Services
         {
             _userManager = userManager;
         }
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request) 
+        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
             var user = request.Adapt<ApplicationUser>();
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -32,9 +32,37 @@ namespace KASHOP.BLL.Services
             {
                 Message = "User registration successful, Thank you"
             };
-        }       
-   
-   
-   
+        }
+
+
+        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+
+            if (user is null)
+            {
+                return new LoginResponse()
+                {
+                    Message = "Invalid Email"
+                };
+            }
+
+            var result = await _userManager.CheckPasswordAsync(user, request.Password);
+
+            if (!result)
+            {
+                return new LoginResponse()
+                {
+                    Message = "Invalid Password"
+                };
+            }
+
+            return new LoginResponse()
+
+            {
+                Message = "Done"
+            };
+        }
+
     }
 }
