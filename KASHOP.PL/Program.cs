@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Globalization;
 using KASHOP.PL.Utils;
-
+using KASHOP.BLL.Common;
 namespace KASHOP.PL
 {
     public class Program
@@ -54,6 +54,7 @@ namespace KASHOP.PL
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
              builder.Services.AddScoped<ISeedData, RoleSeedData>();
+               builder.Services.AddTransient<IEmailSender, EmailSender>();
             //if theres more seed data classes, you can add them here
             //builder.Services.AddScoped<ISeedData, CategorySeedDataClass>();
 

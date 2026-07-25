@@ -28,5 +28,10 @@ namespace KASHOP.PL.Controllers
             var result = await _authenticationService.LoginAsync(request);
             return Ok(result);
         }
+        [HttpGet("confirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string email)
+        {
+            return Content(email);
+        }
     }
 }
