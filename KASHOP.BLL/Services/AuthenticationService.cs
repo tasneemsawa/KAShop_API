@@ -25,14 +25,22 @@ namespace KASHOP.BLL.Services
         {
             var user = request.Adapt<ApplicationUser>();
             var result = await _userManager.CreateAsync(user, request.Password);
+            foreach (var item in result.Errors)
+            {
+                Console.WriteLine(item.Description);
+            }
 
             if (!result.Succeeded)
                 return new RegisterResponse()
                 {
-                    Message = "User registration failed"
+                    Message = "User registration failed",
+                    Errors = result.Errors.Select(e => e.Description).ToList()
                 };
 
-            var emailUrl = $"http://localhost:5276/api/Account/ConfirmEmail?email={request.Email}";
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //this will convert each character in the token to its ASCII value and then convert it to a string representation of that value, separated by dashes.
+            token = Uri.EscapeDataString(token);
+            var emailUrl = $"http://localhost:5276/api/Account/ConfirmEmail?token={token}&userId={user.Id}";
             await _emailSender.SendEmailAsync(
                 request.Email,
                 "Welcome to KASHOP",
@@ -95,6 +103,16 @@ $@"
             };
         }
 
+        public async Task<bool> ConfirmEmail(ConfirmEmailRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user is null) return false;
+            // Decode the token from the query string(return to its original shape)
+            request.Token = Uri.UnescapeDataString(request.Token);
+            var result = await _userManager.ConfirmEmailAsync(user, request.Token);
+            if (!result.Succeeded) return false;
+            return true;
+        }
 
         public async Task<LoginResponse> LoginAsync(LoginRequest request)
         {
@@ -105,6 +123,13 @@ $@"
                 return new LoginResponse()
                 {
                     Message = "Invalid Email"
+                };
+            }
+            if (!await _userManager.IsEmailConfirmedAsync(user))
+            {
+                return new LoginResponse()
+                {
+                    Message = "Email not confirmed"
                 };
             }
 

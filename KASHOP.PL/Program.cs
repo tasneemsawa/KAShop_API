@@ -47,9 +47,12 @@ namespace KASHOP.PL
                 //to send the language in the header of the request
                 options.RequestCultureProviders.Add(new AcceptLanguageHeaderRequestCultureProvider());
             });
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(Options =>
+            {
+                Options.User.RequireUniqueEmail = true;
+            })
              .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+             .AddDefaultTokenProviders();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
