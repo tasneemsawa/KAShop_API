@@ -178,3 +178,4 @@
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
 /Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/tasneemsawalha/Downloads/course/back/tasks/KASHOP_API/KASHOP.PL/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
