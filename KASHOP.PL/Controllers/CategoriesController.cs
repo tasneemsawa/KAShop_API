@@ -40,6 +40,8 @@ namespace KASHOP.PL.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Create(CategoryRequest request)
         {
+            //to get the id 
+            //var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             //  var category = request.Adapt<Category>();
             // _context.Add(category);
