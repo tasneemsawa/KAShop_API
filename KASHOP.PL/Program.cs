@@ -6,12 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Globalization;
-using KASHOP.PL.Utils;
-using KASHOP.BLL.Common;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using KASHOP.BLL.Mapping;
 using KASHOP.PL.Extensions;
 namespace KASHOP.PL
 {
@@ -27,7 +22,7 @@ namespace KASHOP.PL
 
             var app = builder.Build();
             app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
-
+           MapsterConfig.MapsterConfigRegister();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

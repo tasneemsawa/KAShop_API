@@ -34,6 +34,7 @@ namespace KASHOP.PL.Controllers
         {
             //    var categories = _context.Categories.Include(c=>c.Translations).ToList();
             //    var res= categories.Adapt<List<CategoryResponse>>();
+           // var lang = Request.Headers["Accept-Language"].ToString();
             var categories = await _categoryService.GetAllCategories();
             return Ok(new { _localizer["success"].Value, categories });
         }
