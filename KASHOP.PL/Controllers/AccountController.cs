@@ -19,22 +19,21 @@ namespace KASHOP.PL.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var result = await _authenticationService.RegisterAsync(request);
-            return Ok(result);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
 
             var result = await _authenticationService.LoginAsync(request);
-            return Ok(result);
+            return result.Success ? Ok(result) : BadRequest(result);
         }
         [HttpGet("confirmEmail")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailRequest request)
         {
             //Console.WriteLine(request.Token);   
             var result = await _authenticationService.ConfirmEmail(request);
-            if (!result) return BadRequest();
-            return Ok();
+            return result.Success ? Ok(result) : BadRequest(result);
         }
     }
 }

@@ -25,19 +25,20 @@ namespace KASHOP.BLL.Services
             _emailSender = emailSender;
             _config = config;
         }
-        public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
-        {
-            var user = request.Adapt<ApplicationUser>();
-            var result = await _userManager.CreateAsync(user, request.Password);
-            foreach (var item in result.Errors)
-            {
-                Console.WriteLine(item.Description);
-            }
 
-            if (!result.Succeeded)
-                return new RegisterResponse()
-                {
-                    Message = "User registration failed",
+        public async Task<Result<bool>> RegisterAsync(RegisterRequest request)
+        {
+            try
+            {
+                var user = request.Adapt<ApplicationUser>();
+                var result = await _userManager.CreateAsync(user, request.Password);
+
+                if (!result.Succeeded)
+                    return new Result<bool>
+                    {
+                        Success = false,
+                        Message = "User registration failed",
+                        Data = false,
                     Errors = result.Errors.Select(e => e.Description).ToList()
                 };
 
@@ -101,61 +102,116 @@ $@"
 </div>"
             );
 
-            return new RegisterResponse()
+                return new Result<bool>
+                {
+                    Success = true,
+                    Message = "User registered successfully. Please check your email to confirm your account.",
+                    Data = true,
+                    Errors = null
+                };
+            }
+            catch (Exception ex)
             {
-                Message = "User registration successful, Thank you"
-            };
+                return new Result<bool>
+                {
+                    Success = false,
+                    Message = $"An error occurred during registration: {ex.InnerException.Message}",
+                    Data = false,
+                };
+            }
         }
 
-        public async Task<bool> ConfirmEmail(ConfirmEmailRequest request)
+        public async Task<Result<bool>> ConfirmEmail(ConfirmEmailRequest request)
         {
-            var user = await _userManager.FindByIdAsync(request.UserId);
-            if (user is null) return false;
+            try
+            {
+                var user = await _userManager.FindByIdAsync(request.UserId);
+                if (user is null)
+                {
+                    return new Result<bool>
+                    {
+                        Success = false,
+                        Message = "User not found",
+                        Data = false
+                    };
+                }
+
             // Decode the token from the query string(return to its original shape)
             request.Token = Uri.UnescapeDataString(request.Token);
             var result = await _userManager.ConfirmEmailAsync(user, request.Token);
-            if (!result.Succeeded) return false;
-            return true;
+                return new Result<bool>
+                {
+                    Success = result.Succeeded,
+                    Message = result.Succeeded ? "Email confirmed successfully" : "Email confirmation failed",
+                    Data = result.Succeeded,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Result<bool>
+                {
+                    Success = false,
+                    Message = $"An error occurred during email confirmation: {ex.InnerException.Message}",
+                    Data = false,
+                };
+            }
+
+
         }
 
-        public async Task<LoginResponse> LoginAsync(LoginRequest request)
+        public async Task<Result<LoginResponse>> LoginAsync(LoginRequest request)
+        {
+            try
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 
             if (user is null)
             {
-                return new LoginResponse()
+                return new Result<LoginResponse>
                 {
+                        Success = false,
                     Message = "Invalid Email"
                 };
             }
-            if (!await _userManager.IsEmailConfirmedAsync(user))
-            {
-                return new LoginResponse()
+                if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    Message = "Email not confirmed"
+                    return new Result<LoginResponse>
+                    {
+                        Success = false,
+                        Message = "Email not confirmed. Please check your email to confirm your account."
+                    };
+                }
+
+                var PasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+                if (!PasswordValid)
+                {
+                    return new Result<LoginResponse>
+                    {
+                        Success = false,
+                        Message = "Invalid Password"
+                    };
+                }
+
+                return new Result<LoginResponse>
+                {
+                    Success = true,
+                    Message = "Login successful",
+                    Data = new LoginResponse
+                    {
+                        AccessToken = await GenerateJwt(user)
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Result<LoginResponse>
+                {
+                    Success = false,
+                    Message = ex.InnerException.Message
                 };
             }
 
-            var result = await _userManager.CheckPasswordAsync(user, request.Password);
-
-            if (!result)
-            {
-                return new LoginResponse()
-                {
-                    Message = "Invalid Password"
-                };
-            }
-
-            return new LoginResponse()
-
-            {
-                Message = "Login successful",
-                AccessToken = await GenerateJwt(user)
-            };
         }
-
-
         private async Task<string> GenerateJwt(ApplicationUser user)
         {
             var roles = await _userManager.GetRolesAsync(user);
