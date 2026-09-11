@@ -17,6 +17,7 @@ namespace KASHOP.PL.Extensions
             Services.AddScoped<ICategoryRepository, CategoryRepository>();
             Services.AddScoped<ICategoryService, CategoryService>();
             Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            Services.AddScoped<IFileService, FileService>();
             Services.AddScoped<ISeedData, RoleSeedData>();
             Services.AddTransient<IEmailSender, EmailSender>();
             

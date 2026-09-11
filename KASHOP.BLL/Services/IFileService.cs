@@ -1,3 +1,4 @@
+using KASHOP.DAL.Dto;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace KASHOP.BLL.Services
 {
-    internal interface IFileService
+    public interface IFileService
     {
-        Task<string?> UploadAsync(IFormFile file);
+        Task<Result<string>> UploadAsync(IFormFile file);
     }
 }
