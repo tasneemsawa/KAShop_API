@@ -28,6 +28,7 @@ namespace KASHOP.PL
             builder.Services.AddApplicationServices(builder.Configuration);
 
             var app = builder.Build();
+            app.UseExceptionHandler();
             app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
            MapsterConfig.MapsterConfigRegister();
             // Configure the HTTP request pipeline.

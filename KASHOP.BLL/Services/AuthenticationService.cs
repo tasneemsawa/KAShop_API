@@ -24,23 +24,23 @@ namespace KASHOP.BLL.Services
             _userManager = userManager;
             _emailSender = emailSender;
             _config = config;
-        }
+        }        
 
-        public async Task<Result<bool>> RegisterAsync(RegisterRequest request)
+        public async Task<Result<bool>> RegisterAsync(RegisterRequest request) 
         {
-            try
-            {
-                var user = request.Adapt<ApplicationUser>();
-                var result = await _userManager.CreateAsync(user, request.Password);
+            
+            var user = request.Adapt<ApplicationUser>();
+            var result = await _userManager.CreateAsync(user, request.Password);
 
-                if (!result.Succeeded)
-                    return new Result<bool>
-                    {
-                        Success = false,
-                        Message = "User registration failed",
-                        Data = false,
-                    Errors = result.Errors.Select(e => e.Description).ToList()
-                };
+            if (!result.Succeeded)
+                return Result<bool>.Fail("User registration failed", result.Errors.Select(e => e.Description).ToList());
+            //return new Result<bool>
+            //    {
+            //        Success = false,
+            //        Message = "User registration failed",
+            //        Data = false,
+            //        Errors = result.Errors.Select(e => e.Description).ToList()
+            //    };
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //this will convert each character in the token to its ASCII value and then convert it to a string representation of that value, separated by dashes.
@@ -48,7 +48,7 @@ namespace KASHOP.BLL.Services
             var emailUrl = $"http://localhost:5276/api/Account/ConfirmEmail?token={token}&userId={user.Id}";
             await _emailSender.SendEmailAsync(
                 request.Email,
-                "Welcome to KASHOP",
+  "Welcome to KASHOP",
 $@"
 <div style='background-color: #f4f6f8; padding: 40px 10px; font-family: -apple-system, BlinkMacSystemFont, ""Segoe UI"", Roboto, Helvetica, Arial, sans-serif;'>
     <div style='max-width: 560px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border: 1px solid #e1e4e8;'>
@@ -102,115 +102,87 @@ $@"
 </div>"
             );
 
-                return new Result<bool>
-                {
-                    Success = true,
-                    Message = "User registered successfully. Please check your email to confirm your account.",
-                    Data = true,
-                    Errors = null
-                };
-            }
-            catch (Exception ex)
-            {
-                return new Result<bool>
-                {
-                    Success = false,
-                    Message = $"An error occurred during registration: {ex.InnerException.Message}",
-                    Data = false,
-                };
-            }
+            return Result<bool>.Ok(true, "User registered successfully. Please check your email to confirm your account.");
+            //return new Result<bool>
+            //{
+            //    Success = true,
+            //    Message = "User registered successfully. Please check your email to confirm your account.",
+            //    Data = true,
+            //    Errors = null
+            //};
+            
         }
 
         public async Task<Result<bool>> ConfirmEmail(ConfirmEmailRequest request)
-        {
-            try
+        {            
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user is null)
             {
-                var user = await _userManager.FindByIdAsync(request.UserId);
-                if (user is null)
-                {
-                    return new Result<bool>
-                    {
-                        Success = false,
-                        Message = "User not found",
-                        Data = false
-                    };
-                }
-
+                return Result<bool>.Fail("User not found");
+                //return new Result<bool>
+                //{
+                //    Success = false,
+                //    Message = "User not found",
+                //    Data = false
+                //};
+            }
+                    
             // Decode the token from the query string(return to its original shape)
             request.Token = Uri.UnescapeDataString(request.Token);
-            var result = await _userManager.ConfirmEmailAsync(user, request.Token);
-                return new Result<bool>
-                {
-                    Success = result.Succeeded,
-                    Message = result.Succeeded ? "Email confirmed successfully" : "Email confirmation failed",
-                    Data = result.Succeeded,
-                };
-            }
-            catch (Exception ex)
-            {
-                return new Result<bool>
-                {
-                    Success = false,
-                    Message = $"An error occurred during email confirmation: {ex.InnerException.Message}",
-                    Data = false,
-                };
-            }
-
-
+            var result = await _userManager.ConfirmEmailAsync(user, request.Token);               
+            return Result<bool>.Ok(result.Succeeded, result.Succeeded ? "Email confirmed successfully" : "Email confirmation failed");
+            //return new Result<bool>
+            //{
+            //    Success = result.Succeeded,
+            //    Message = result.Succeeded ? "Email confirmed successfully" : "Email confirmation failed",
+            //    Data = result.Succeeded,
+            //};                                   
         }
 
         public async Task<Result<LoginResponse>> LoginAsync(LoginRequest request)
-        {
-            try
-        {
+        {            
             var user = await _userManager.FindByEmailAsync(request.Email);
-
             if (user is null)
             {
-                return new Result<LoginResponse>
-                {
-                        Success = false,
-                    Message = "Invalid Email"
-                };
+                return Result<LoginResponse>.Fail("Invalid Email");
+                //return new Result<LoginResponse>
+                //{
+                //    Success = false,
+                //    Message = "Invalid Email"
+                //};
             }
-                if (!await _userManager.IsEmailConfirmedAsync(user))
-                {
-                    return new Result<LoginResponse>
-                    {
-                        Success = false,
-                        Message = "Email not confirmed. Please check your email to confirm your account."
-                    };
-                }
 
-                var PasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
-                if (!PasswordValid)
-                {
-                    return new Result<LoginResponse>
-                    {
-                        Success = false,
-                        Message = "Invalid Password"
-                    };
-                }
-
-                return new Result<LoginResponse>
-                {
-                    Success = true,
-                    Message = "Login successful",
-                    Data = new LoginResponse
-                    {
-                        AccessToken = await GenerateJwt(user)
-                    }
-                };
-            }
-            catch (Exception ex)
+            if (!await _userManager.IsEmailConfirmedAsync(user))
             {
-                return new Result<LoginResponse>
-                {
-                    Success = false,
-                    Message = ex.InnerException.Message
-                };
+                return Result<LoginResponse>.Fail("Email not confirmed. Please check your email to confirm your account.");
+                //return new Result<LoginResponse>
+                //{
+                //    Success = false,
+                //    Message = "Email not confirmed. Please check your email to confirm your account."
+                //};
             }
 
+            var PasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!PasswordValid)
+            {
+                return Result<LoginResponse>.Fail("Invalid Password");
+                //return new Result<LoginResponse>
+                //{
+                //    Success = false,
+                //    Message = "Invalid Password"
+                //};
+            }
+
+            return new Result<LoginResponse>
+            {
+                Success = true,
+                Message = "Login successful",
+                Data = new LoginResponse
+                {
+                    AccessToken = await GenerateJwt(user)
+                }
+            };                   
+            
         }
         private async Task<string> GenerateJwt(ApplicationUser user)
         {
@@ -223,9 +195,9 @@ $@"
                 new Claim(ClaimTypes.Role, string.Join(",",roles))
             };
             var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["ApiSettings:SecretKey"]));
-
+            
             var creds = new SigningCredentials(securitykey, SecurityAlgorithms.HmacSha256);
-
+            
             var token = new JwtSecurityToken(
                 issuer: _config["ApiSettings:issuer"],
                 audience: _config["ApiSettings:audience"],
